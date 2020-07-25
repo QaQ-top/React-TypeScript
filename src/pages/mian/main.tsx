@@ -3,6 +3,7 @@ import
     { 
         FC, // FunctionComponent 函数组件
         // createContext, // 作用：父向子组传递参数
+        
         useState, 
         useContext, 
         useEffect, 
@@ -11,9 +12,9 @@ import
         useRef, 
         useCallback, 
         // useDebugValue, // 自定义 Hook
-        // useImperativeHandle, 
-        useLayoutEffect
-
+        useImperativeHandle, 
+        forwardRef, // 组件可接收额外的ref 配合 useImperativeHandle
+        useLayoutEffect,
     } from 'react';
 
 import { testContext } from './context'; // createContext
@@ -93,7 +94,7 @@ const Title:FC = () => {
     let [num, dispatch] = useReducer((state:any, action:any) => {
         return state + action
     },0)
-    let span = useRef(null)
+    let span = useRef<HTMLSpanElement>(null)
     return (
         <>
            <span ref={span} onClick={()=>{dispatch(5)}}> 
@@ -107,11 +108,23 @@ const Title:FC = () => {
     )
 }
 
-const Unput:FC = (props) => {
-    return (
-        <input ref={props.ref} />
-    )
+interface props { // 定义一个接口
+    [key:string]:any // 任意键名
 }
+const Unput = forwardRef((props,ref) => { // 接口用于组件传递参数
+    console.log(ref)
+    //>———————————— useImperativeHandle ————————————————————————————————
+
+    let inputRef = useRef<HTMLInputElement>(null)
+    useImperativeHandle(ref,()=>({
+        focus: () => {
+            inputRef.current!.focus(); // 如果您100%确定您的focus总是定义的，那么您可以这样说
+        }
+    }))
+    return (
+        <input ref={inputRef} type="text"/>
+    )
+})
 
 let interval:NodeJS.Timeout 
 const Main:FC = function () {
@@ -119,12 +132,15 @@ const Main:FC = function () {
     let [count, setCount] = useState([0,1,2])
     // let interval:NodeJS.Timeout 
     // 数据跟新 组件函数相当于重新执行一次， 导致onMouseUp 获取到的interval 不是 按下时的 interval interval需要定义在函数外面
-
+    
     //>———————————— useCallback ————————————————————————————————
     let callback = useCallback(()=>{
         console.log('useCallback',count)
     },[count])
     callback()
+
+
+    let UnputRef = useRef({focus:Function}) // 定义focus
     return (
         <>
             <Numbers>
@@ -159,7 +175,14 @@ const Main:FC = function () {
                 </button>
             </Hd>
             <br />
-            <Unput dom={} />
+            <Unput ref={UnputRef} />
+            <button
+                onClick={() => {
+                    UnputRef.current.focus()
+                }}
+            >
+                父组件调用子组件的 focus
+            </button>
         </>
     )
 };
