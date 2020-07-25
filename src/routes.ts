@@ -10,6 +10,10 @@ const routes: RouteProps[] = [
   {
     path: "/test-page",
     component: lazy(() => import("@/pages/TestPage"))
+  },
+  {
+    path: "/main",
+    component: lazy(() => import("@/pages/mian/main"))
   }
 ];
 
