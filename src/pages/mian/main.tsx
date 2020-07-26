@@ -21,6 +21,8 @@ import { testContext } from './context'; // createContext
 
 import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom'
 
+import './index.scss';
+
 
 
 
@@ -122,8 +124,18 @@ const Unput = forwardRef((props,ref) => { // 接口用于组件传递参数
             inputRef.current!.focus(); // 如果您100%确定您的focus总是定义的，那么您可以这样说
         }
     }))
+    let box:React.CSSProperties = { 
+        height:"35px",
+        lineHeight:"35px"
+
+    }
     return (
-        <input ref={inputRef} type="text"/>
+        <>
+            <input className='input' ref={inputRef} type="text" defaultValue='' pattern='^[0-9]{6,8}'/> {/*  pattern属性直写正则内容不需要 / / 包围起来 */}
+            <span style={box}>
+                请输入 6 - 8 的数值
+            </span>
+        </>
     )
 })
 
@@ -189,6 +201,7 @@ const Main:FC = function () {
             </Hd>
             <br />
             <Unput ref={UnputRef} />
+            <br />
             <button
                 onClick={() => {
                     UnputRef.current.focus()

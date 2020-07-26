@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+$inputWidth: 100;
+$inputHeight: 35;
+$inputNone: none;
+$inputColor: rgb(224, 106, 224);
+
+.input{
+    width: $inputWidth+px;
+    height: $inputHeight+px;
+    background-color: transparent;
+    border: $inputColor solid 1px;
+    outline: $inputNone;
+    &+span {
+        display: $inputNone;
+    }
+    // :valid input value 合法
+    // :invalid input value 非法
+    
+    &:valid {
+        border-color: green;
+        box-shadow: inset 5px 0 0 0 green;
+      }
+      /* input内容非法时：边框颜色是红色*/
+    &:invalid {
+        border-color: red;
+        box-shadow: inset 5px 0 0 0 red;
+    }
+    &:invalid+span {
+        display: inline-block;
+    }
+
+    &_box { //>选择器拼接 (.input_box)
+        height: $inputHeight;
+
+        //>——————————————————样式嵌套——————————————————
+        border: { 
+            width: 1px;
+            left: none;
+            right: none;
+            style: solid;
+            color: red;
+        }
+        background: {
+            color: red;
+            repeat: no-repeat;
+            image: url(/img/icon.png);
+            position: 0 0;
+        }
+    }
+
+    //>—————————————————— @mixin 混合 ——————————————————
+    @mixin radius($radius:5px) { // 默认参数
+        -webkit-border-radius: $radius;
+        border-radius: $radius;
+    }
+    & {
+        @include radius(6px);
+        &_box {
+            @include radius; // 使用默认参数
+        }
+    }
+
+    //>—————————————————— % 占位符 ——————————————————
+    %a_box { // 如果不调用则不会有任何多余的 css 文件  @extend调用
+        display: none;
+    }
+
+    //>—————————————————— @extend 继承 ——————————————————
+    &_count {
+        @extend %a_box
+    }
+    &_text {
+        @extend .input_count // 继承 &_count
+    }
+
+
+    //>—————————————————— @for 循序 ——————————————————
+    @for $i from 1 through 3 { // from 1 through 3  表示$i 从1 到 3
+        &_#{$i} { // #{$i} 字符拼接
+            background-position: 0 (-20px) * $i;
+        }
+    }
+    @for $l from 0 through 4 {
+        &_count#{$l} {
+            width: (100px) * $l;
+        }
+    }
+
+    //>—————————————————— @each 循序 ——————————————————
+    @each $name in list, detail { // in list, detail 表示循环这两项目
+        &_#{$name} {
+            background-image: url(/img/jdc_#{$name}.png);
+        }
+    }
+    @each $test in 1, 2, 3{
+        &_test#{$test} {
+            position: relative;
+            z-index: $test;
+        }
+    }
+    
+    //>—————————————————— @function 函数 —————————————————— 
+    @function pxToRem($px) {
+        @return $px / 10px * 1rem;
+    }
+    &_jdc {
+        font-size: pxToRem(12px);
+    }
+    @function width($i) {
+        @return $i / 1rem * 10px
+    }
+    & {
+        width: width(20rem);
+    }
+    p {
+        @if 1 + 1 == 2 { 
+            border: 1px solid; 
+        }
+        @if 5 < 3 { 
+            border: 2px dotted; 
+        }
+        @if null  { 
+            border: 3px double; 
+        }
+      }
+}
+
+
+
