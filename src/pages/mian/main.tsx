@@ -19,6 +19,8 @@ import
 
 import { testContext } from './context'; // createContext
 
+import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom'
+
 
 
 
@@ -27,7 +29,7 @@ const Numbers:FC = function ({children}) {
     /**
      * useLayoutEffect and useEffect 接收两参数 
      * callback 第一个参数会在组件渲染后执行，如果返回一个函数，那么返回的函数回在组件卸载的时候执行
-     * array 第二个参数表式 数组内的 某条数据发生变化时 触发 callback
+     * array 第二个参数表示 数组内的 某条数据发生变化时 触发 callback
      * 如果 callback 内部有某个依赖， 那么array 内必须存在改依赖
      */
     useLayoutEffect(()=>{ // 立即执行 (执行循序大于Promise)
@@ -74,7 +76,7 @@ const Title:FC = () => {
     /**
      * useMemo 接收两参数 
      * callback 第一个参数会在组件渲染时执行，如果callback有返回值，那么useMemo 将返回 callback 的返回值
-     * array 第二个参数表式 数组内的 某条数据发生变化时 触发 callback
+     * array 第二个参数表示 数组内的 某条数据发生变化时 触发 callback
      * 如果 callback 内部有某个依赖， 那么array 内必须存在改依赖
      */
     let str:number = useMemo(()=>{
@@ -87,8 +89,8 @@ const Title:FC = () => {
     //>———————————— useReducer ————————————————————————————————
     /**
      * useReducer 接收两参数 
-     * callback 第一个参数会在组件渲染时执行，如果callback有返回一个array，[callback的返回值, dispatch]
-     * any 第二个参数表式 state 的默认值
+     * callback 第一个参数会在组件渲染时执行，callback返回一个array，[callback的返回值, dispatch]
+     * any 第二个参数表示 state 的默认值
      * 如果 callback 内部有某个依赖， 那么array 内必须存在改依赖
      */
     let [num, dispatch] = useReducer((state:any, action:any) => {
@@ -112,7 +114,6 @@ interface props { // 定义一个接口
     [key:string]:any // 任意键名
 }
 const Unput = forwardRef((props,ref) => { // 接口用于组件传递参数
-    console.log(ref)
     //>———————————— useImperativeHandle ————————————————————————————————
 
     let inputRef = useRef<HTMLInputElement>(null)
@@ -132,6 +133,12 @@ const Main:FC = function () {
     let [count, setCount] = useState([0,1,2])
     // let interval:NodeJS.Timeout 
     // 数据跟新 组件函数相当于重新执行一次， 导致onMouseUp 获取到的interval 不是 按下时的 interval interval需要定义在函数外面
+    // let [test, setTest] = useState(0)
+    // setTimeout(()=>{
+    //     setTest((value)=>{
+    //         return ++value
+    //     })
+    // },1000)
     
     //>———————————— useCallback ————————————————————————————————
     let callback = useCallback(()=>{
@@ -139,7 +146,13 @@ const Main:FC = function () {
     },[count])
     callback()
 
-
+    let host = {
+        useHistory:useHistory(), 
+        useLocation:useLocation(), 
+        useParams:useParams(), 
+        useRouteMatch:useRouteMatch()
+    }
+    console.log(host)
     let UnputRef = useRef({focus:Function}) // 定义focus
     return (
         <>

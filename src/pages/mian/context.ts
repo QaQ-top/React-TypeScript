@@ -1,3 +1,3 @@
 import React from 'react'
-let arr:number[] = []
-export const testContext = React.createContext(arr)
+let array:number[] = []
+export const testContext:React.Context<number[]> = React.createContext(array)

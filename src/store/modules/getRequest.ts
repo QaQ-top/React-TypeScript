@@ -10,7 +10,6 @@ class getRequest extends StoreModule {
         this.array.push(...data)
     }
 
-    
 }
 
 

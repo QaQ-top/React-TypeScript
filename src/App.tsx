@@ -6,7 +6,7 @@ const App: React.FC = () => {
   return (
     <Suspense fallback={<p>loading...</p>}>
       <Switch>
-        {routes.map(({ path, component, ...rest }, index) => (
+        {routes.map(({ path, component, ...rest}, index) => (
           <Route key={index} path={path} component={component} {...rest} />
         ))}
       </Switch>

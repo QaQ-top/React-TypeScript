@@ -32,7 +32,13 @@ const Home: React.FC = () => {
     return i!==undefined
   })
   arr.splice(0,1)
-
+  let path = {
+        pathname: "/main",
+        state: {
+            name: "张三",
+            age: 20
+        }
+    }
   return (
     <>
       <h1>Home Page</h1>
@@ -105,7 +111,8 @@ const Home: React.FC = () => {
           <p>
             <Link to="/test-page">goto test-page</Link>
             <br />
-            <Link to="/main">goto main</Link>
+            <Link to={path}>
+            goto main</Link>
 
           </p>
         </li>
