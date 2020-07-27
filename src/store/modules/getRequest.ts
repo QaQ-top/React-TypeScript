@@ -1,13 +1,19 @@
 import { action, observable } from 'mobx'
 import { StoreModule } from '@/utils/mobx-store-module'
 
+interface item {
+    id:string
+    [key:string]:string
+}
 class getRequest extends StoreModule {
     @observable 
-    public  array:object[] = [{}]
+    public  state = {
+        array : [] as item[]
+    }
 
     @action
     public add = (data:[]) => {
-        this.array.push(...data)
+        this.state.array.push(...data)
     }
 
 }

@@ -12,7 +12,7 @@ function randomStr(len: number = 16): string {
   let str = "";
   for (let i = 0; i < len; i++) {
     const index = Math.floor((Math.random() * 100 * l) % l);
-    str += string[index];
+    str += string.charAt(index);
   }
   return str;
 }

@@ -14,7 +14,15 @@ const routes: RouteProps[] = [
   {
     path: "/main",
     component: lazy(() => import("@/pages/mian/main"))
-  }
+  },
+  {
+    path:'/myTest',
+    component: lazy(() => import("@/pages/myTest/index"))
+  },
+  {
+    path:'/mobx',
+    component: lazy(() => import("@/pages/mobx/index"))
+  },
 ];
 
 export default routes;

@@ -31,7 +31,7 @@ const withProxy = (url: string) => {
   }
 };
 
-const axiosIns = axios.create({
+const axiosIns = axios.create({  // 创建一个规定好格式的 axios
   baseURL: "",
   timeout: 10000,
   responseType: "json",
@@ -40,9 +40,13 @@ const axiosIns = axios.create({
   }
 });
 
+interface Token {
+  Authorization:string
+}
+
 axiosIns.interceptors.request.use(
   (config) => {
-    let { url = "", headers = {} } = config;
+    let { url = "", headers = {} as Token } = config;
     const token = window.localStorage.getItem("token");
     token && (headers.Authorization = token);
     url = withProxy(url);
@@ -53,9 +57,9 @@ axiosIns.interceptors.request.use(
 );
 
 axiosIns.interceptors.response.use(
-  (responce) => {
-    console.log("axios", responce);
-    return responce.data;
+  (response) => {
+    console.log("axios", response);
+    return response.data;
   },
   (error) => Promise.reject(error)
 );
