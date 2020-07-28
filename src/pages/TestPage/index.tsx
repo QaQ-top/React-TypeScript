@@ -1,5 +1,6 @@
 import React from "react";
 import { Prompt } from "react-router-dom";
+import Swiper from '@/Component/swiper';
 
 const apis = [
   { title: "Proxy", status: !!window.Proxy },
@@ -43,7 +44,13 @@ const TestPage: React.FC = () => {
   return (
     <>
       <Prompt message="是否确定离开这个页面?" />
-
+      <Swiper>
+        {
+          Array.apply(null,[,,,,,]).map((i,n)=>{
+            return <div key={n}>{n}</div>
+          })
+        }
+      </Swiper>
       <h1>Test Page</h1>
 
       <ol>

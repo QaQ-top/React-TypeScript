@@ -4,7 +4,7 @@ import {
     useLocalStore,  // let data = useLocalStore(() => ( { name:'ck' } )) 创建数据 计算属性 方法
     useObserver,    // useObserver(() => JSX.Element) 创建一个可更新View(视图)的 JSX
     Observer        // 一个 ReactElement 节点, children 应为 ()=> JSX.Element 数据更只会更新 <Observer></Observer>内的View
-} from 'mobx-react'
+} from 'mobx-react-lite'
 import { observable, action } from 'mobx';
 
 // observable.box 基本数据类型
