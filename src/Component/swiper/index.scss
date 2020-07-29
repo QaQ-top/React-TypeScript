@@ -15,4 +15,10 @@
       background-color: royalblue;
     }
   }
+  & > .page{
+    // 父
+    & .pages{
+      // 子
+    }
+  }
 }

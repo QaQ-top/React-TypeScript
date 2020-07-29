@@ -23,12 +23,16 @@ let setTime = fn()
 const Swiper:React.FC = ({children}) => {
     let box = useRef({} as HTMLDivElement)
     let refs = useRef({} as HTMLCollection)
-    let lengthRef = useRef(0)
+    let [length, setLength] = useState(0)
+    let nodesLengthRef = useRef(length)
     
     useLayoutEffect(()=>{
         let boxDiv = box.current
         let nodes:HTMLCollection | null = refs.current = boxDiv.children
-        lengthRef.current = nodes.length
+        length = nodes.length
+        setLength(length)
+        nodesLengthRef.current = length
+        console.log(nodesLengthRef)
         let first:Node | null = nodes[0].cloneNode(true)
         let last:Node | null = nodes[nodes.length - 1].cloneNode(true)
         boxDiv.insertBefore(last,nodes[0])
@@ -68,11 +72,20 @@ const Swiper:React.FC = ({children}) => {
     const rootTransitionEnd = ()=>{
 
     }
-    
+    let array = {length:nodesLengthRef.current} as Array<number>
     return <> 
         <div className='container'>
             <div className='box' ref={box} onMouseDown={rootMouseDown} onTransitionEnd={rootTransitionEnd}>
                 { children }
+            </div>
+            <div className='page'>
+                {
+                    Array.apply(null,array).map((i,n)=>{
+                        return <div key={n} className='pages'>
+                            {n+1}
+                        </div>
+                    })
+                }
             </div>
         </div>
     </>
